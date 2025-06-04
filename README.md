@@ -1,4 +1,4 @@
-# Distributed P2P CMS Example - (for GraphDB Integration)
+# Distributed P2P CMS Example - GraphDB (GDB)
 
 ![dVoting App Screenshot](https://media.licdn.com/dms/image/v2/C4E22AQF8hH6r8AnF5w/feedshare-shrink_800/feedshare-shrink_800/0/1644574363392?e=2147483647&v=beta&t=EvaCR-whYo4jTQ0HmYXeVGlMOKxdkJ4pV-s2gxkbsCQ) <!-- Replace placeholder.png with an actual screenshot -->
 
