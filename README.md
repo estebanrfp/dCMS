@@ -1,5 +1,7 @@
 # Distributed P2P CMS Example - Frontend (for GraphDB Integration)
 
+![dVoting App Screenshot](https://media.licdn.com/dms/image/v2/C4E22AQF8hH6r8AnF5w/feedshare-shrink_800/feedshare-shrink_800/0/1644574363392?e=2147483647&v=beta&t=EvaCR-whYo4jTQ0HmYXeVGlMOKxdkJ4pV-s2gxkbsCQ) <!-- Replace placeholder.png with an actual screenshot -->
+
 This project is a frontend prototype for a **Distributed Peer-to-Peer (P2P) Content Management System (dCMS)**. It demonstrates the user interface and client-side functionalities for creating, viewing, and managing content.
 
 The dCMS is designed to operate on a decentralized P2P network, using a Graph Database (GDB) for data storage and real-time synchronization. The target backend library for achieving this is **`gdb-p2p`**, a minimalist Graph Database with P2P support. This README describes the frontend application and how it's intended to integrate with the `gdb-p2p` API.
