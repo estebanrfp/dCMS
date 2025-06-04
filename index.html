@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distributed P2P CMS Example - GraphDB (GDB)</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="menu-column">
+            <h2>Distributed P2P CMS Example - GraphDB (GDB)</h2>
+            <nav>
+                <ul>
+                    <li><button id="navViewList">Ver Posts (Grid)</button></li>
+                    <li><button id="navNewPost">Nuevo Post</button></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="content-column">
+            <!-- Sección Lista de Posts (Grid de Imágenes PRINCIPAL) -->
+            <section id="postListSection" class="view-section">
+                <h1>Todos los Posts (Grid)</h1>
+                <div id="postsGridContainer">
+                    <!-- Los items del grid se cargarán aquí -->
+                </div>
+            </section>
+
+            <!-- Sección Visor de Post Individual -->
+            <section id="postViewSection" class="view-section">
+                <button class="back-button" id="backToListViewFromPost">← Volver a la lista</button>
+                <article id="postDisplay">
+                    <h1 id="postViewTitle"></h1>
+                    <p class="meta" id="postViewMeta"></p>
+                    <img id="postViewImage" src="" alt="Imagen del Post">
+                    <div id="postViewContent" class="markdown-body"></div>
+                </article>
+            </section>
+
+            <!-- Sección Editor de Post -->
+            <section id="editorSection" class="view-section editor-layout">
+                <div class="editor-form-column">
+                    <button class="back-button" id="backToListViewFromEditor">← Volver a la lista</button>
+                    <h1 id="editorTitle">Crear/Editar Post</h1>
+                    <form id="postForm">
+                        <label for="title">Título:</label>
+                        <input type="text" id="title" name="title" required>
+
+                        <label for="slug">Slug:</label>
+                        <input type="text" id="slug" name="slug" readonly>
+
+                        <label for="description">Descripción Corta:</label>
+                        <textarea id="description" name="description" rows="3"></textarea>
+
+                        <label for="tags">Etiquetas (separadas por coma):</label>
+                        <input type="text" id="tags" name="tags">
+
+                        <label for="imageUrl">URL de Imagen:</label>
+                        <input type="text" id="imageUrl" name="imageUrl" placeholder="https://ejemplo.com/imagen.jpg" required>
+
+                        <label for="status">Estado:</label>
+                        <select id="status" name="status">
+                            <option value="draft">Borrador</option>
+                            <option value="published">Publicado</option>
+                        </select>
+
+                        <label for="content">Contenido (Markdown):</label>
+                        <textarea id="content" name="content" rows="15"></textarea>
+                        
+                        <div class="editor-actions">
+                            <button type="submit">Guardar Post</button>
+                            <button type="button" id="deletePostBtn" style="display: none;">Eliminar Post</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="editor-preview-column">
+                    <h3>Vista Previa Markdown</h3>
+                    <div class="word-counter">Palabras: <span id="wordCount">0</span></div>
+                    <div id="markdownPreview" class="markdown-body"></div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer-column">
+            <h2>Últimos Posts Actualizados</h2>
+            <ul id="latestPostsList">
+                <!-- Los últimos posts se cargarán aquí -->
+            </ul>
+        </footer>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
