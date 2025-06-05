@@ -2,6 +2,7 @@ import { GraphDB } from 'https://cdn.jsdelivr.net/npm/gdb-p2p/+esm'
 
 // --- Slug Generation Functions ---
 function removeStopWords (text, lang = 'es') {
+  // Note: This stopword list is for Spanish. Translating it would change the function's behavior.
   const stopwords_es = new Set([
     'un', 'una', 'unas', 'unos', 'uno', 'sobre', 'todo', 'también', 'tras', 'otro', 'algún', 'alguno', 'alguna', 'algunos', 'algunas',
     'ser', 'es', 'soy', 'eres', 'somos', 'sois', 'son', 'fui', 'fuiste', 'fue', 'fuimos', 'fuisteis', 'fueron',
@@ -28,7 +29,7 @@ function removeStopWords (text, lang = 'es') {
 
 function advancedSlugify (str) {
   if (!str) return ''
-  str = removeStopWords(str, 'es')
+  str = removeStopWords(str, 'es') // Uses Spanish stopwords by default
   str = str.replace(/^\s+|\s+$/g, '')
   str = str.toLowerCase()
 
@@ -97,7 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentEditingContentId = null
   let unsubscribeMainGrid = null
   let unsubscribeLatestPosts = null
-  const IMAGE_PLACEHOLDER = 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22150%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20150%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_17ba862586c%20text%20%7B%20fill%3A%23AAAAAA%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A13pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_17ba862586c%22%3E%3Crect%20width%3D%22200%22%20height%3D%22150%22%20fill%3D%22%23EEEEEE%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2262.796875%22%20y%3D%2281%22%3EImagen%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E'
+  const IMAGE_PLACEHOLDER = 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22150%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20150%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_17ba862586c%20text%20%7B%20fill%3A%23AAAAAA%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A13pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_17ba862586c%22%3E%3Crect%20width%3D%22200%22%20height%3D%22150%22%20fill%3D%22%23EEEEEE%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2272.171875%22%20y%3D%2281%22%3EImage%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E'
+
 
   // --- Application State & Routing ---
   function showSection (sectionToShow) {
@@ -105,8 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
       section.style.display = 'none'
     })
     if (sectionToShow) {
-      // editorSection usa display: grid definido en CSS a través de .editor-layout
-      // los otros pueden usar block o el display por defecto de <section>
+      // editorSection uses display: grid defined in CSS via .editor-layout
+      // the others can use block or the default display of <section>
       sectionToShow.style.display = sectionToShow.classList.contains('editor-layout') ? 'grid' : 'block'
     }
   }
@@ -122,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
       loadPostForEditing(postId)
     } else if (hash === '#/editor') {
       resetEditorForm()
-      editorTitleEl.textContent = 'Crear Nuevo Post'
+      editorTitleEl.textContent = 'Create New Post'
       deletePostBtn.style.display = 'none'
       wordCountSpan.textContent = '0'
       showSection(editorSection)
@@ -159,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
     slugInput.value = ''
     currentEditingPostId = null
     currentEditingContentId = null
-    editorTitleEl.textContent = 'Crear Nuevo Post'
+    editorTitleEl.textContent = 'Create New Post'
     deletePostBtn.style.display = 'none'
     markdownPreview.innerHTML = ''
     wordCountSpan.textContent = '0'
@@ -168,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
   postForm.addEventListener('submit', async (e) => {
     e.preventDefault()
     if (!imageUrlInput.value) {
-      alert('Por favor, ingrese una URL para la imagen.')
+      alert('Please enter a URL for the image.')
       imageUrlInput.focus()
       return
     }
@@ -191,11 +193,11 @@ document.addEventListener('DOMContentLoaded', () => {
       tags: tagsInput.value.split(',').map(tag => tag.trim()).filter(tag => tag),
       imageUrl: imageUrlInput.value,
       status: statusInput.value,
-      type: 'postMeta',
+      type: 'postMeta', // Internal type, do not translate
       createdAt: originalCreatedAt,
       updatedAt: Date.now()
     }
-    const contentData = { markdown: contentInput.value, type: 'postContent' }
+    const contentData = { markdown: contentInput.value, type: 'postContent' } // Internal type
 
     try {
       let contentNodeId
@@ -212,32 +214,32 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isEditing) {
         await db.put(postMetaData, currentEditingPostId)
         metaNodeId = currentEditingPostId
-        alert('Post actualizado!')
+        alert('Post updated!')
       } else {
         metaNodeId = await db.put(postMetaData)
         await db.link(metaNodeId, contentNodeId)
-        alert('Post creado!')
+        alert('Post created!')
       }
       window.location.hash = `#/post/${metaNodeId}`
     } catch (error) {
-      console.error('Error guardando post:', error)
-      alert(`Error al guardar: ${error.message}`)
+      console.error('Error saving post:', error)
+      alert(`Error saving: ${error.message}`)
     }
   })
 
   deletePostBtn.addEventListener('click', async () => {
-    if (!currentEditingPostId || !confirm('¿Seguro que quieres eliminar este post?')) return
+    if (!currentEditingPostId || !confirm('Are you sure you want to delete this post?')) return
     try {
       const { result: metaNodeToDelete } = await db.get(currentEditingPostId)
       if (metaNodeToDelete && metaNodeToDelete.value && metaNodeToDelete.value.contentId) {
         await db.remove(metaNodeToDelete.value.contentId)
       }
       await db.remove(currentEditingPostId)
-      alert('Post eliminado.')
+      alert('Post deleted.')
       window.location.hash = '#/'
     } catch (error) {
-      console.error('Error eliminando post:', error)
-      alert(`Error al eliminar: ${error.message}`)
+      console.error('Error deleting post:', error)
+      alert(`Error deleting: ${error.message}`)
     }
   })
 
@@ -245,18 +247,18 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const { result: metaNode } = await db.get(postId)
       if (!metaNode || !metaNode.value) {
-        alert('Post no encontrado para editar.'); window.location.hash = '#/'; return
+        alert('Post not found for editing.'); window.location.hash = '#/'; return
       }
       const postMeta = metaNode.value
       resetEditorForm()
-      editorTitleEl.textContent = 'Editar Post'
+      editorTitleEl.textContent = 'Edit Post'
       currentEditingPostId = postId
       titleInput.value = postMeta.title || ''
       slugInput.value = postMeta.slug || advancedSlugify(postMeta.title || '')
       descriptionInput.value = postMeta.description || ''
       tagsInput.value = postMeta.tags ? postMeta.tags.join(', ') : ''
       imageUrlInput.value = postMeta.imageUrl || ''
-      statusInput.value = postMeta.status || 'draft'
+      statusInput.value = postMeta.status || 'draft' // 'draft' is an internal value
 
       let markdownText = ''
       if (postMeta.contentId) {
@@ -273,27 +275,27 @@ document.addEventListener('DOMContentLoaded', () => {
       deletePostBtn.style.display = 'inline-block'
       showSection(editorSection)
     } catch (error) {
-      console.error('Error cargando post para editar:', error)
-      alert(`Error al cargar para editar: ${error.message}`); window.location.hash = '#/'
+      console.error('Error loading post for editing:', error)
+      alert(`Error loading for editing: ${error.message}`); window.location.hash = '#/'
     }
   }
 
-  // --- MAIN Post List Logic (Grid de Imágenes) ---
+  // --- MAIN Post List Logic (Image Grid) ---
   async function subscribeToMainGridPosts () {
     if (unsubscribeMainGrid) { unsubscribeMainGrid(); unsubscribeMainGrid = null }
 
-    postsGridContainer.innerHTML = '<p>Cargando posts...</p>'
+    postsGridContainer.innerHTML = '<p>Loading posts...</p>'
 
     try {
       const { results, unsubscribe } = await db.map(
         {
-          query: { type: 'postMeta' },
+          query: { type: 'postMeta' }, // Internal type
           field: 'updatedAt',
-          order: 'desc'
+          order: 'desc' // Internal order
         },
         ({ id, value, action }) => {
           const loadingMsg = postsGridContainer.querySelector('p:first-child')
-          if (loadingMsg && loadingMsg.textContent.startsWith('Cargando')) postsGridContainer.innerHTML = ''
+          if (loadingMsg && loadingMsg.textContent.startsWith('Loading')) postsGridContainer.innerHTML = ''
 
           const existingEl = postsGridContainer.querySelector(`.post-grid-item[data-id="${id}"]`)
 
@@ -308,15 +310,15 @@ document.addEventListener('DOMContentLoaded', () => {
           }
 
           if (postsGridContainer.children.length === 0 && !postsGridContainer.querySelector('p')) {
-            postsGridContainer.innerHTML = '<p>No hay posts. ¡Crea uno!</p>'
+            postsGridContainer.innerHTML = '<p>No posts yet. Create one!</p>'
           }
         }
       )
       unsubscribeMainGrid = unsubscribe
 
-      if (postsGridContainer.textContent.startsWith('Cargando')) {
+      if (postsGridContainer.textContent.startsWith('Loading')) {
         postsGridContainer.innerHTML = ''
-        if (results.length === 0) postsGridContainer.innerHTML = '<p>No hay posts. ¡Crea uno!</p>'
+        if (results.length === 0) postsGridContainer.innerHTML = '<p>No posts yet. Create one!</p>'
         else {
           results.forEach(post => {
             if (!postsGridContainer.querySelector(`.post-grid-item[data-id="${post.id}"]`)) {
@@ -326,8 +328,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     } catch (error) {
-      console.error('Error suscribiéndose a posts del grid principal:', error)
-      postsGridContainer.innerHTML = `<p>Error cargando posts: ${error.message}</p>`
+      console.error('Error subscribing to main grid posts:', error)
+      postsGridContainer.innerHTML = `<p>Error loading posts: ${error.message}</p>`
     }
   }
 
@@ -345,17 +347,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const img = document.createElement('img')
     img.classList.add('grid-item-image')
     img.src = postValue.imageUrl || IMAGE_PLACEHOLDER
-    img.alt = postValue.title || 'Imagen del Post'
+    img.alt = postValue.title || 'Post Image'
     img.onerror = function () { this.src = IMAGE_PLACEHOLDER }
     item.appendChild(img)
 
     const infoDiv = document.createElement('div')
     infoDiv.classList.add('grid-item-info')
     infoDiv.innerHTML = `
-            <h4>${postValue.title || 'Sin Título'}</h4>
-            <p class="description">${postValue.description || '<em>Sin descripción.</em>'}</p>
+            <h4>${postValue.title || 'Untitled'}</h4>
+            <p class="description">${postValue.description || '<em>No description.</em>'}</p>
             <div class="grid-item-actions">
-                <button class="edit-btn" data-edit-id="${id}">Editar</button>
+                <button class="edit-btn" data-edit-id="${id}">Edit</button>
             </div>
         `
     item.appendChild(infoDiv)
@@ -370,42 +372,42 @@ document.addEventListener('DOMContentLoaded', () => {
   function updatePostGridItemDOM (element, postValue) {
     const img = element.querySelector('.grid-item-image')
     img.src = postValue.imageUrl || IMAGE_PLACEHOLDER
-    img.alt = postValue.title || 'Imagen del Post'
-    element.querySelector('h4').textContent = postValue.title || 'Sin Título'
-    element.querySelector('.description').innerHTML = postValue.description || '<em>Sin descripción.</em>'
+    img.alt = postValue.title || 'Post Image'
+    element.querySelector('h4').textContent = postValue.title || 'Untitled'
+    element.querySelector('.description').innerHTML = postValue.description || '<em>No description.</em>'
   }
 
   // --- LATEST Posts List Logic (Footer) ---
   async function subscribeToLatestPosts () {
     if (unsubscribeLatestPosts) { unsubscribeLatestPosts(); unsubscribeLatestPosts = null }
 
-    latestPostsListUl.innerHTML = '<li>Cargando...</li>'
+    latestPostsListUl.innerHTML = '<li>Loading...</li>'
 
     try {
       const { results, unsubscribe } = await db.map(
         {
-          query: { type: 'postMeta' },
+          query: { type: 'postMeta' }, // Internal type
           field: 'updatedAt',
-          order: 'desc',
+          order: 'desc', // Internal order
           $limit: 5
         },
         ({ id, value, action }) => {
           const loadingMsg = latestPostsListUl.querySelector('li')
-          if (loadingMsg && loadingMsg.textContent.startsWith('Cargando')) latestPostsListUl.innerHTML = ''
+          if (loadingMsg && loadingMsg.textContent.startsWith('Loading')) latestPostsListUl.innerHTML = ''
 
           const existingLi = latestPostsListUl.querySelector(`li[data-id="${id}"]`)
 
           if (action === 'removed') {
             if (existingLi) existingLi.remove()
           } else if (value) {
-            let displayTitle = value.title || 'Sin Título'
-            if (displayTitle.length > 35) { // Acortar títulos largos para el footer
+            let displayTitle = value.title || 'Untitled'
+            if (displayTitle.length > 35) { // Shorten long titles for the footer
               displayTitle = `${displayTitle.substring(0, 32)}...`
             }
 
             const liContent = `
                             <a href="#/post/${id}">${displayTitle}</a>
-                            ${value.status === 'draft' ? '<span class="status-draft">(Borrador)</span>' : ''}
+                            ${value.status === 'draft' ? '<span class="status-draft">(Draft)</span>' : ''}
                         `
 
             if (existingLi) {
@@ -415,21 +417,21 @@ document.addEventListener('DOMContentLoaded', () => {
               newLi.dataset.id = id
               newLi.innerHTML = liContent
 
-              // Insertar en orden o simplemente añadir y reconstruir al final (más simple)
-              // Por ahora, añadimos y confiamos en el `results` para el orden inicial.
-              // Para una lista que siempre debe estar ordenada en RT, necesitaríamos
-              // lógica de inserción más compleja o re-renderizar la lista `results` de map.
-              // Vamos a intentar una inserción más ordenada
+              // Insert in order or simply add and rebuild at the end (simpler)
+              // For now, we add and trust the `results` for the initial order.
+              // For a list that must always be sorted in RT, we would need
+              // more complex insertion logic or re-render the `results` list from map.
+              // Let's try a more ordered insertion
               const existingIds = Array.from(latestPostsListUl.querySelectorAll('li[data-id]')).map(el => el.dataset.id)
-              if (!existingIds.includes(id)) { // Evitar duplicados por si acaso
-                // Si el `map` devuelve los items en el orden correcto debido a field/order,
-                // simplemente añadir funciona.
+              if (!existingIds.includes(id)) { // Avoid duplicates just in case
+                // If `map` returns items in the correct order due to field/order,
+                // simply appending works.
                 latestPostsListUl.appendChild(newLi)
               }
             }
           }
           if (latestPostsListUl.children.length === 0 && !latestPostsListUl.querySelector('li')) {
-            latestPostsListUl.innerHTML = '<li>No hay posts recientes.</li>'
+            latestPostsListUl.innerHTML = '<li>No recent posts.</li>'
           }
         }
       )
@@ -437,47 +439,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
       latestPostsListUl.innerHTML = ''
       if (results.length === 0) {
-        latestPostsListUl.innerHTML = '<li>No hay posts recientes.</li>'
+        latestPostsListUl.innerHTML = '<li>No recent posts.</li>'
       } else {
         results.forEach(post => {
           const li = document.createElement('li')
           li.dataset.id = post.id
-          let displayTitle = post.value.title || 'Sin Título'
-          if (displayTitle.length > 35) { // Acortar títulos largos
+          let displayTitle = post.value.title || 'Untitled'
+          if (displayTitle.length > 35) { // Shorten long titles
             displayTitle = `${displayTitle.substring(0, 32)}...`
           }
           li.innerHTML = `
                         <a href="#/post/${post.id}">${displayTitle}</a>
-                        ${post.value.status === 'draft' ? '<span class="status-draft">(Borrador)</span>' : ''}
+                        ${post.value.status === 'draft' ? '<span class="status-draft">(Draft)</span>' : ''}
                     `
           latestPostsListUl.appendChild(li)
         })
       }
     } catch (error) {
-      console.error('Error suscribiéndose a últimos posts:', error)
-      latestPostsListUl.innerHTML = '<li>Error al cargar.</li>'
+      console.error('Error subscribing to latest posts:', error)
+      latestPostsListUl.innerHTML = '<li>Error loading.</li>'
     }
   }
 
   // --- Post View Logic ---
   async function loadAndDisplayPost (postId) {
     showSection(postViewSection)
-    postViewTitle.textContent = 'Cargando post...'
+    postViewTitle.textContent = 'Loading post...'
     postViewContent.innerHTML = ''; postViewImage.style.display = 'none'; postViewMeta.textContent = ''
 
     try {
       const { result: metaNode } = await db.get(postId)
       if (!metaNode || !metaNode.value) {
-        alert('Post no encontrado.'); postViewTitle.textContent = 'Error'
-        postViewContent.innerHTML = '<p>Error: Post no encontrado.</p>'; return
+        alert('Post not found.'); postViewTitle.textContent = 'Error'
+        postViewContent.innerHTML = '<p>Error: Post not found.</p>'; return
       }
       const postMeta = metaNode.value
-      postViewTitle.textContent = postMeta.title || 'Sin Título'
-      postViewMeta.textContent = `Estado: ${postMeta.status} | Actualizado: ${new Date(postMeta.updatedAt).toLocaleString()}${postMeta.tags && postMeta.tags.length > 0 ? ` | Etiquetas: ${postMeta.tags.join(', ')}` : ''}`
+      postViewTitle.textContent = postMeta.title || 'Untitled'
+      postViewMeta.textContent = `Status: ${postMeta.status} | Updated: ${new Date(postMeta.updatedAt).toLocaleString()}${postMeta.tags && postMeta.tags.length > 0 ? ` | Tags: ${postMeta.tags.join(', ')}` : ''}`
 
       if (postMeta.imageUrl) {
         postViewImage.src = postMeta.imageUrl
-        postViewImage.alt = postMeta.title || 'Imagen del Post'
+        postViewImage.alt = postMeta.title || 'Post Image'
         postViewImage.style.display = 'block'
         postViewImage.onerror = function () { this.style.display = 'none' }
       } else {
@@ -486,14 +488,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (postMeta.contentId) {
         const { result: contentNode } = await db.get(postMeta.contentId)
-        postViewContent.innerHTML = (contentNode && contentNode.value && typeof contentNode.value.markdown !== 'undefined') ? markdownConverter.makeHtml(contentNode.value.markdown) : '<p>Contenido no encontrado o vacío.</p>'
+        postViewContent.innerHTML = (contentNode && contentNode.value && typeof contentNode.value.markdown !== 'undefined') ? markdownConverter.makeHtml(contentNode.value.markdown) : '<p>Content not found or empty.</p>'
       } else {
-        postViewContent.innerHTML = '<p>Contenido no enlazado.</p>'
+        postViewContent.innerHTML = '<p>Content not linked.</p>'
       }
     } catch (error) {
-      console.error('Error cargando post para ver:', error)
-      postViewTitle.textContent = 'Error al Cargar'
-      postViewContent.innerHTML = `<p>Error al cargar: ${error.message}</p>`
+      console.error('Error loading post for viewing:', error)
+      postViewTitle.textContent = 'Error Loading'
+      postViewContent.innerHTML = `<p>Error loading: ${error.message}</p>`
     }
   }
 
