@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,80 +13,80 @@
             <h2>dCMS - (GDB)</h2>
             <nav>
                 <ul>
-                    <li><button id="navViewList">Ver Posts (Grid)</button></li>
-                    <li><button id="navNewPost">Nuevo Post</button></li>
+                    <li><button id="navViewList">View Posts (Grid)</button></li>
+                    <li><button id="navNewPost">New Post</button></li>
                 </ul>
             </nav>
         </aside>
 
         <main class="content-column">
-            <!-- Sección Lista de Posts (Grid de Imágenes PRINCIPAL) -->
+            <!-- Post List Section (MAIN Image Grid) -->
             <section id="postListSection" class="view-section">
-                <h1>Todos los Posts (Grid)</h1>
+                <h1>All Posts (Grid)</h1>
                 <div id="postsGridContainer">
-                    <!-- Los items del grid se cargarán aquí -->
+                    <!-- Grid items will be loaded here -->
                 </div>
             </section>
 
-            <!-- Sección Visor de Post Individual -->
+            <!-- Individual Post Viewer Section -->
             <section id="postViewSection" class="view-section">
-                <button class="back-button" id="backToListViewFromPost">← Volver a la lista</button>
+                <button class="back-button" id="backToListViewFromPost">← Back to list</button>
                 <article id="postDisplay">
                     <h1 id="postViewTitle"></h1>
                     <p class="meta" id="postViewMeta"></p>
-                    <img id="postViewImage" src="" alt="Imagen del Post">
+                    <img id="postViewImage" src="" alt="Post Image">
                     <div id="postViewContent" class="markdown-body"></div>
                 </article>
             </section>
 
-            <!-- Sección Editor de Post -->
+            <!-- Post Editor Section -->
             <section id="editorSection" class="view-section editor-layout">
                 <div class="editor-form-column">
-                    <button class="back-button" id="backToListViewFromEditor">← Volver a la lista</button>
-                    <h1 id="editorTitle">Crear/Editar Post</h1>
+                    <button class="back-button" id="backToListViewFromEditor">← Back to list</button>
+                    <h1 id="editorTitle">Create/Edit Post</h1>
                     <form id="postForm">
-                        <label for="title">Título:</label>
+                        <label for="title">Title:</label>
                         <input type="text" id="title" name="title" required>
 
                         <label for="slug">Slug:</label>
                         <input type="text" id="slug" name="slug" readonly>
 
-                        <label for="description">Descripción Corta:</label>
+                        <label for="description">Short Description:</label>
                         <textarea id="description" name="description" rows="3"></textarea>
 
-                        <label for="tags">Etiquetas (separadas por coma):</label>
+                        <label for="tags">Tags (comma-separated):</label>
                         <input type="text" id="tags" name="tags">
 
-                        <label for="imageUrl">URL de Imagen:</label>
-                        <input type="text" id="imageUrl" name="imageUrl" placeholder="https://ejemplo.com/imagen.jpg" required>
+                        <label for="imageUrl">Image URL:</label>
+                        <input type="text" id="imageUrl" name="imageUrl" placeholder="https://example.com/image.jpg" required>
 
-                        <label for="status">Estado:</label>
+                        <label for="status">Status:</label>
                         <select id="status" name="status">
-                            <option value="draft">Borrador</option>
-                            <option value="published">Publicado</option>
+                            <option value="draft">Draft</option>
+                            <option value="published">Published</option>
                         </select>
 
-                        <label for="content">Contenido (Markdown):</label>
+                        <label for="content">Content (Markdown):</label>
                         <textarea id="content" name="content" rows="15"></textarea>
                         
                         <div class="editor-actions">
-                            <button type="submit">Guardar Post</button>
-                            <button type="button" id="deletePostBtn" style="display: none;">Eliminar Post</button>
+                            <button type="submit">Save Post</button>
+                            <button type="button" id="deletePostBtn" style="display: none;">Delete Post</button>
                         </div>
                     </form>
                 </div>
                 <div class="editor-preview-column">
-                    <h3>Vista Previa Markdown</h3>
-                    <div class="word-counter">Palabras: <span id="wordCount">0</span></div>
+                    <h3>Markdown Preview</h3>
+                    <div class="word-counter">Words: <span id="wordCount">0</span></div>
                     <div id="markdownPreview" class="markdown-body"></div>
                 </div>
             </section>
         </main>
 
         <footer class="footer-column">
-            <h2>Últimos Posts Actualizados</h2>
+            <h2>Latest Updated Posts</h2>
             <ul id="latestPostsList">
-                <!-- Los últimos posts se cargarán aquí -->
+                <!-- Latest posts will be loaded here -->
             </ul>
         </footer>
     </div>
