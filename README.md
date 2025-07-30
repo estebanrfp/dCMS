@@ -1,10 +1,10 @@
-# Distributed P2P CMS Example - GraphDB (GDB)
+# Distributed P2P CMS Example - GenosDB (GDB)
 
 ![dVoting App Screenshot](https://media.licdn.com/dms/image/v2/C4E22AQF8hH6r8AnF5w/feedshare-shrink_800/feedshare-shrink_800/0/1644574363392?e=2147483647&v=beta&t=EvaCR-whYo4jTQ0HmYXeVGlMOKxdkJ4pV-s2gxkbsCQ) <!-- Replace placeholder.png with an actual screenshot -->
 
 This project is a frontend prototype for a **Distributed Peer-to-Peer (P2P) Content Management System (dCMS)**. It demonstrates the user interface and client-side functionalities for creating, viewing, and managing content.
 
-The dCMS is designed to operate on a decentralized P2P network, using a Graph Database (GDB) for data storage and real-time synchronization. The target backend library for achieving this is **`gdb-p2p`**, a minimalist Graph Database with P2P support. This README describes the frontend application and how it's intended to integrate with the `gdb-p2p` API.
+The dCMS is designed to operate on a decentralized P2P network, using a Graph Database (GDB) for data storage and real-time synchronization. The target backend library for achieving this is **`genosdb`**, a minimalist Graph Database with P2P support. This README describes the frontend application and how it's intended to integrate with the `genosdb` API.
 
 ## Core dCMS Frontend Features
 
@@ -24,16 +24,16 @@ This frontend, built with HTML, CSS, and JavaScript (`app.js`), provides the fol
 *   **Responsive Design:** Adapts to various screen sizes.
 *   **Latest Posts Footer:** Displays a list of recently updated posts.
 
-## Intended Architecture with `gdb-p2p`
+## Intended Architecture with `genosdb`
 
-The true power of this dCMS will be realized when `app.js` is integrated with the `gdb-p2p` library. Here's how the frontend functionalities are designed to map to `gdb-p2p` operations:
+The true power of this dCMS will be realized when `app.js` is integrated with the `genosdb` library. Here's how the frontend functionalities are designed to map to `genosdb` operations:
 
 1.  **Initialization:**
-    *   Upon loading, `app.js` would initialize a `gdb-p2p` instance:
+    *   Upon loading, `app.js` would initialize a `genosdb` instance:
         ```javascript
         // In app.js
-        // import { GraphDB } from "https://cdn.jsdelivr.net/npm/gdb-p2p/+esm"; // Or from npm
-        const db = new GraphDB("dcms-main-database", { password: "user-chosen-password" /* optional */ });
+        // import { GDB } from "https://cdn.jsdelivr.net/npm/genosdb/+esm"; // Or from npm
+        const db = new GDB("dcms-main-database", { password: "user-chosen-password" /* optional */ });
         ```
 
 2.  **Displaying Posts (Grid View & Latest Posts Footer):**
@@ -85,7 +85,7 @@ The true power of this dCMS will be realized when `app.js` is integrated with th
 
 *   **HTML5:** Semantic structure.
 *   **CSS3:** Custom styling (`styles.css`).
-*   **JavaScript (ES6+ Modules):** Application logic, DOM manipulation, and intended `gdb-p2p` integration (`app.js`).
+*   **JavaScript (ES6+ Modules):** Application logic, DOM manipulation, and intended `genosdb` integration (`app.js`).
 *   **Showdown.js:** For client-side Markdown to HTML conversion (post content and live preview).
 
 ## Getting Started (Frontend Prototype)
@@ -110,7 +110,7 @@ The true power of this dCMS will be realized when `app.js` is integrated with th
         ```
         Then navigate to `http://localhost:8000`.
 
-**Note:** This runs the frontend UI only. Data operations are currently simulated in `app.js` (e.g., using `localStorage` or in-memory arrays). Full P2P functionality requires integrating `gdb-p2p`.
+**Note:** This runs the frontend UI only. Data operations are currently simulated in `app.js` (e.g., using `localStorage` or in-memory arrays). Full P2P functionality requires integrating `genosdb`.
 
 ## Project Structure
 
@@ -122,21 +122,21 @@ The true power of this dCMS will be realized when `app.js` is integrated with th
 └── README.md         # This file
 ```
 
-## Future Development: Full `gdb-p2p` Integration
+## Future Development: Full `genosdb` Integration
 
-The primary next step for this project is to fully integrate `app.js` with the `gdb-p2p` library:
+The primary next step for this project is to fully integrate `app.js` with the `genosdb` library:
 
-*   **Initialize `GraphDB`** on application start.
+*   **Initialize `GenosDB`** on application start.
 *   **Replace mock data handling** in `app.js` with `db.put()`, `db.get()`, `db.map()`, and `db.remove()` calls.
 *   Implement **real-time UI updates** using the callback mechanism of `db.map()`.
 *   Manage **post slugs**, ensuring uniqueness (potentially a check before `db.put()`).
-*   Refine **data models** for posts, considering timestamps (using `gdb-p2p`'s HLCs automatically handled by `get` and `map` callbacks), authors, and tags.
+*   Refine **data models** for posts, considering timestamps (using `genosdb`'s HLCs automatically handled by `get` and `map` callbacks), authors, and tags.
 *   Explore using `db.link()` for richer relationships (e.g., post-to-author, post-to-tag).
-*   Implement **encryption** using the `password` option in `new GraphDB()` if secure storage is desired.
+*   Implement **encryption** using the `password` option in `new GDB()` if secure storage is desired.
 
 ## Contributing
 
-Contributions are welcome, especially those focused on the `gdb-p2p` integration and enhancing the P2P capabilities of the CMS.
+Contributions are welcome, especially those focused on the `genosdb` integration and enhancing the P2P capabilities of the CMS.
 1.  Fork the repository.
 2.  Create a feature branch.
 3.  Commit your changes.
