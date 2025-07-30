@@ -1,4 +1,4 @@
-import { GraphDB } from 'https://cdn.jsdelivr.net/npm/gdb-p2p/+esm'
+import { GDB } from 'https://cdn.jsdelivr.net/npm/gdb-p2p/+esm'
 
 // --- Slug Generation Functions ---
 function removeStopWords (text, lang = 'es') {
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     simpleLineBreaks: true
   })
 
-  const db = new GraphDB('cms-advanced-v2-db')
+  const db = new GDB('cms-advanced-v2-db')
 
   // --- DOM Elements ---
   const navViewListBtn = document.getElementById('navViewList')
