@@ -118,7 +118,7 @@ The true power of this dCMS will be realized when `app.js` is integrated with th
 /
 ├── index.html        # Main HTML structure of the dCMS
 ├── styles.css        # CSS styles
-├── app.js            # Core JavaScript logic (to be integrated with gdb-p2p)
+├── app.js            # Core JavaScript logic (to be integrated with genosdb)
 └── README.md         # This file
 ```
 
