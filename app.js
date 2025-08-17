@@ -1,4 +1,4 @@
-import { GDB } from 'https://cdn.jsdelivr.net/npm/genosdb/+esm'
+import { gdb } from 'https://cdn.jsdelivr.net/npm/genosdb@latest/dist/index.min.js'
 
 // --- Slug Generation Functions ---
 function removeStopWords (text, lang = 'es') {
@@ -52,7 +52,7 @@ function countWords (text) {
   return words ? words.length : 0
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const markdownConverter = new showdown.Converter({
     tables: true,
     strikethrough: true,
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     simpleLineBreaks: true
   })
 
-  const db = new GDB('cms-advanced-v2-db')
+  const db = await gdb('cms-advanced-v2-db')
 
   // --- DOM Elements ---
   const navViewListBtn = document.getElementById('navViewList')
@@ -102,7 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // --- Application State & Routing ---
-  function showSection (sectionToShow) {
+  // Show/hide sections
+  const showSection = (sectionToShow) => {
     [postListSection, postViewSection, editorSection].forEach(section => {
       section.style.display = 'none'
     })
@@ -113,7 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function handleRouteChange () {
+  // Routing logic
+  const handleRouteChange = () => {
     const hash = window.location.hash
 
     if (hash.startsWith('#/post/')) {
@@ -156,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
     wordCountSpan.textContent = countWords(markdownText)
   })
 
-  function resetEditorForm () {
+  const resetEditorForm = () => {
     postForm.reset()
     slugInput.value = ''
     currentEditingPostId = null
@@ -243,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 
-  async function loadPostForEditing (postId) {
+  const loadPostForEditing = async (postId) => {
     try {
       const { result: metaNode } = await db.get(postId)
       if (!metaNode || !metaNode.value) {
@@ -281,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- MAIN Post List Logic (Image Grid) ---
-  async function subscribeToMainGridPosts () {
+  const subscribeToMainGridPosts = async () => {
     if (unsubscribeMainGrid) { unsubscribeMainGrid(); unsubscribeMainGrid = null }
 
     postsGridContainer.innerHTML = '<p>Loading posts...</p>'
@@ -333,7 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function createPostGridItemDOM (id, postValue) {
+  const createPostGridItemDOM = (id, postValue) => {
     const item = document.createElement('div')
     item.classList.add('post-grid-item')
     item.dataset.id = id
@@ -369,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return item
   }
 
-  function updatePostGridItemDOM (element, postValue) {
+  const updatePostGridItemDOM = (element, postValue) => {
     const img = element.querySelector('.grid-item-image')
     img.src = postValue.imageUrl || IMAGE_PLACEHOLDER
     img.alt = postValue.title || 'Post Image'
@@ -378,7 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- LATEST Posts List Logic (Footer) ---
-  async function subscribeToLatestPosts () {
+  const subscribeToLatestPosts = async () => {
     if (unsubscribeLatestPosts) { unsubscribeLatestPosts(); unsubscribeLatestPosts = null }
 
     latestPostsListUl.innerHTML = '<li>Loading...</li>'
@@ -462,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- Post View Logic ---
-  async function loadAndDisplayPost (postId) {
+  const loadAndDisplayPost = async (postId) => {
     showSection(postViewSection)
     postViewTitle.textContent = 'Loading post...'
     postViewContent.innerHTML = ''; postViewImage.style.display = 'none'; postViewMeta.textContent = ''
