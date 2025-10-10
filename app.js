@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     simpleLineBreaks: true
   })
 
-  const db = await gdb('cms-advanced-v2-db')
+  const db = await gdb('cms-advanced-v2-db', { rtc: true }) // Using RTC for real-time collaboration
 
   // --- DOM Elements ---
   const navViewListBtn = document.getElementById('navViewList')
