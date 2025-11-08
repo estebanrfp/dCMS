@@ -32,8 +32,8 @@ The true power of this dCMS will be realized when `app.js` is integrated with th
     *   Upon loading, `app.js` would initialize a `genosdb` instance:
         ```javascript
         // In app.js
-        // import { GDB } from "https://cdn.jsdelivr.net/npm/genosdb/+esm"; // Or from npm
-        const db = new GDB("dcms-main-database", { password: "user-chosen-password" /* optional */ });
+        // import { gdb } from 'https://cdn.jsdelivr.net/npm/genosdb@latest/dist/index.min.js'; // Or from npm
+        const db = await gdb('dcms-main-database', { rtc: true }) // Using RTC for real-time collaboration
         ```
 
 2.  **Displaying Posts (Grid View & Latest Posts Footer):**
